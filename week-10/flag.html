@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flag Builder</title>
+    <style>
+        body { text-align: center; font-family: Arial, sans-serif; }
+        #flag-container { position: relative; width: 300px; height: 200px; margin: auto; border: 1px solid black; }
+        #flag {
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to bottom, #FF9933 33.33%, white 33.33% 66.66%, #138808 66.66%);
+            position: relative;
+        }
+        #chakra {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 50px;
+            height: 50px;
+            background: url('https://upload.wikimedia.org/wikipedia/commons/1/17/Ashoka_Chakra.svg') no-repeat center/cover;
+        }
+        .wave { animation: wave 1s infinite alternate ease-in-out; }
+        @keyframes wave { 0% { transform: rotate(2deg); } 100% { transform: rotate(-2deg); } }
+        #flagpole { position: absolute; left: -10px; top: 0; width: 10px; height: 100%; background: black; }
+        #canvas-container { margin-top: 20px; }
+    </style>
+</head>
+<body>
+    <h1>Flag Builder</h1>
+    <label for="flagSelect">Choose a flag:</label>
+    <select id="flagSelect" onchange="changeFlag()">
+        <option value="india" selected>India</option>
+        <option value="uk">UK</option>
+        <option value="france">France</option>
+        <option value="germany">Germany</option>
+    </select>
+    
+    <div id="flag-container">
+        <div id="flagpole"></div>
+        <div id="flag">
+            <div id="chakra"></div>
+        </div>
+    </div>
+    
+    <button onclick="hoistFlag()">Hoist Flag</button>
+    <button onclick="waveFlag()">Wave Flag</button>
+    <button onclick="stopWave()">Stop Wave</button>
+    <input type="color" id="colorPicker" onchange="changeFlagColor()">
+    <button onclick="fadeOutFlag()">Fade Out Flag</button>
+    
+    <!-- <div id="canvas-container">
+        <canvas id="flagCanvas" width="300" height="200" style="border:1px solid black;"></canvas>
+        <button onclick="drawFlag()">Draw on Canvas</button>
+    </div> -->
+    
+    <!-- <audio id="anthem" src="anthem.mp3"></audio>
+    <button onclick="playAnthem()">Play Anthem</button>
+    <button onclick="pauseAnthem()">Pause Anthem</button> -->
+    
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        function changeFlag() {
+            let flag = document.getElementById('flag');
+            let chakra = document.getElementById('chakra');
+            let selectedFlag = document.getElementById('flagSelect').value;
+            if (selectedFlag === 'india') {
+                flag.style.background = "linear-gradient(to bottom, #FF9933 33.33%, white 33.33% 66.66%, #138808 66.66%)";
+                chakra.style.display = "block";
+            } 
+             else if (selectedFlag === 'uk') {
+                flag.style.background = "linear-gradient(to bottom right, red 50%, white 50%), linear-gradient(to bottom left, red 50%, white 50%)";
+                chakra.style.display = "none";
+            } else if (selectedFlag === 'france') {
+                flag.style.background = "linear-gradient(to right, blue 33.33%, white 33.33% 66.66%, red 66.66%)";
+                chakra.style.display = "none";
+            } else if (selectedFlag === 'germany') {
+                flag.style.background = "linear-gradient(to bottom, black 33.33%, red 33.33% 66.66%, yellow 66.66%)";
+                chakra.style.display = "none";
+            }
+        }
+        function hoistFlag() {
+            $('#flag').animate({ marginTop: '-200px' }, 2000);
+        }
+        function waveFlag() {
+            $('#flag').addClass('wave');
+            setTimeout(() => { stopWave(); }, 10000);
+        }
+        function stopWave() {
+            $('#flag').removeClass('wave');
+        }
+        function changeFlagColor() {
+            document.getElementById('flag').style.background = document.getElementById('colorPicker').value;
+        }
+        function fadeOutFlag() {
+            $('#flag-container').fadeOut(2000);
+        }
+        function playAnthem() {
+            document.getElementById('anthem').play();
+        }
+        function pauseAnthem() {
+            document.getElementById('anthem').pause();
+        }
+        // function drawFlag() {
+        //     let canvas = document.getElementById('flagCanvas');
+        //     let ctx = canvas.getContext('2d');
+        //     ctx.fillStyle = document.getElementById('colorPicker').value;
+        //     ctx.fillRect(50, 50, 200, 100);
+        // }
+    </script>
+</body>
+</html>
